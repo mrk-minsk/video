@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Презентация: Создание видеокурса по MySQL | СУБД</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #eef2f7;
+            color: #1a2c3e;
+            line-height: 1.5;
+            padding: 40px 20px;
+        }
+
+        .presentation {
+            max-width: 1280px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 48px;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.25);
+            overflow: hidden;
+        }
+
+        .slide {
+            padding: 48px 56px;
+            border-bottom: 1px solid #e2e8f0;
+            transition: background 0.2s;
+        }
+
+        .slide:last-child {
+            border-bottom: none;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0b3b5f, #1e6f5c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            border-left: 6px solid #2c9b77;
+            padding-left: 20px;
+            margin-bottom: 1.5rem;
+            color: #0f2b3b;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 1.2rem 0 0.8rem 0;
+            color: #1e6f5c;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #1e6f5c20;
+            color: #1e6f5c;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+            margin: 28px 0;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin: 28px 0;
+        }
+
+        .card {
+            background: #f9fafc;
+            border-radius: 28px;
+            padding: 1.6rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            transition: all 0.2s;
+            border: 1px solid #eef2f9;
+        }
+
+        .card:hover {
+            border-color: #cbdde9;
+            background: white;
+            box-shadow: 0 12px 20px -12px rgba(0,0,0,0.1);
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: #1e6f5c;
+            color: white;
+            font-weight: bold;
+            font-size: 1.3rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 60px;
+            margin-bottom: 16px;
+        }
+
+        .video-links {
+            background: #f0f7f4;
+            border-radius: 32px;
+            padding: 28px;
+            margin-top: 20px;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: white;
+            padding: 14px 20px;
+            margin-bottom: 14px;
+            border-radius: 60px;
+            text-decoration: none;
+            color: #1a2c3e;
+            font-weight: 500;
+            transition: all 0.2s;
+            border: 1px solid #e2edf2;
+        }
+
+        .link-item:hover {
+            background: #e6f4ef;
+            transform: translateX(6px);
+            border-color: #2c9b77;
+        }
+
+        .link-icon {
+            font-size: 1.8rem;
+        }
+
+        .link-url {
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #2c6e5c;
+        }
+
+        .tools {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .tool {
+            background: #1e2a36;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .goal-block {
+            background: linear-gradient(120deg, #f0f9ff 0%, #e9f3ef 100%);
+            border-radius: 32px;
+            padding: 28px 32px;
+            margin: 20px 0 10px;
+            border: 1px solid #cbe5da;
+        }
+
+        .task-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .task-list li {
+            margin-bottom: 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+        .task-list li::before {
+            content: "🎯";
+            font-size: 1.2rem;
+        }
+
+        footer {
+            background: #f8fafd;
+            text-align: center;
+            padding: 24px;
+            font-size: 0.85rem;
+            color: #4a627a;
+            border-top: 1px solid #e2edf2;
+        }
+
+        @media (max-width: 760px) {
+            .slide {
+                padding: 32px 24px;
+            }
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+            h2 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="presentation">
+    <!-- СЛАЙД 1: Титул -->
+    <div class="slide">
+        <div class="badge">Видеопроект · Учебный курс по СУБД</div>
+        <h1>📀 Создание видеокурса<br>«Системы управления базами данных»</h1>
+        <div style="margin-top: 32px; display: flex; gap: 16px; flex-wrap: wrap;">
+            <span style="background:#eef2ff; padding:6px 18px; border-radius:30px;">🎓 ССО</span>
+            <span style="background:#eef2ff; padding:6px 18px; border-radius:30px;">🐬 MySQL</span>
+            <span style="background:#eef2ff; padding:6px 18px; border-radius:30px;">🎬 Sony Vegas + Adobe Premiere Pro</span>
+        </div>
+        <p style="margin-top: 28px; font-size: 1rem; color: #2d4e6e;"><strong>Целевая аудитория:</strong> для учащихся и преподавателей УО ССО, обеспечивающих подготовку специалистов по специальностям 5-04-0612-02 «Разработка и сопровождение программного обеспечения информационных систем» и 5-04-0611-01 «Программирование мобильных устройств» для изучения учебного предмета «Системы управления базами данных», а так же   по специальностям 5-04-0611-04 «Программно-техническое обеспечение цифровых устройств» и 5-04-0611-02 «Техническое обеспечение информационной безопасности»  для изучения учебного предмета «Базы данных».</p>
+    </div>
+
+    <!-- НОВЫЙ СЛАЙД: ЦЕЛЬ И ЗАДАЧИ КУРСА (добавлено по запросу) -->
+    <div class="slide">
+        <h2>🎯 Цель и задачи видеокурса</h2>
+        <div class="goal-block">
+            <h3 style="margin-top: 0; margin-bottom: 12px; color: #0f5c4a;">🌟 Цель создания</h3>
+            <p style="font-size: 1.1rem; font-weight: 500;">Сформировать у обучающихся целостное представление о работе с системой управления базами данных MySQL — от проектирования структуры до профессионального импорта/экспорта данных, — обеспечив качественную подготовку специалистов в области разработки программного обеспечения, мобильных устройств и информационной безопасности.</p>
+        </div>
+        <div style="margin-top: 24px;">
+            <h3>📌 Основные задачи курса</h3>
+            <ul class="task-list" style="margin-top: 16px;">
+                <li>Представить последовательный алгоритм проектирования базы данных: создание таблиц, настройка связей, нормализация и наполнение данными.</li>
+                <li>Обучить основам языка SQL на практических примерах — от простых выборок (SELECT) до сложных запросов с JOIN, агрегацией, а также операциям изменения и удаления данных (INSERT, UPDATE, DELETE).</li>
+                <li>Продемонстрировать механизмы импорта данных из внешних источников (CSV, JSON и др.) с разбором типичных ошибок кодировки и форматов.</li>
+                <li>Раскрыть возможности экспорта данных для резервного копирования, переноса и миграции баз данных, показать практические сценарии выгрузки.</li>
+                <li>Обеспечить преподавателей и учащихся УО ССО наглядным структурированным видеоматериалом для использования в учебном процессе по специальностям в сфере IT и информационной безопасности.</li>
+                <li>Систематизировать знания о MySQL и дать уверенные навыки работы с обменом информацией в профессиональной среде.</li>
+            </ul>
+        </div>
+        <div style="margin-top: 20px; background: #eef2fa; border-radius: 24px; padding: 14px 20px;">
+            <p>🎬 Видеокурс объединяет теорию и практику: каждый этап визуализирован в среде MySQL с пошаговыми комментариями, что позволяет использовать ролики как в аудиторной работе, так и для самостоятельного изучения.</p>
+        </div>
+    </div>
+
+    <!-- СЛАЙД 2: Общая концепция курса -->
+    <div class="slide">
+        <h2>📌 О чём видеокурс?</h2>
+        <div class="grid-2">
+            <div class="card">
+                <div style="font-size: 2rem;">🗄️</div>
+                <h3>MySQL от А до Я</h3>
+                <p>Работа с СУБД MySQL: проектирование структуры, создание таблиц, настройка связей, наполнение данными. Подробный разбор языка SQL — запросы SELECT, INSERT, UPDATE, DELETE.</p>
+            </div>
+            <div class="card">
+                <div style="font-size: 2rem;">🔄</div>
+                <h3>Импорт / Экспорт данных</h3>
+                <p>Загрузка данных из внешних источников, популярные форматы файлов, резервное копирование, выгрузка и перенос информации. Избегаем типичных ошибок импорта.</p>
+            </div>
+        </div>
+        <div style="background: #eef2fa; border-radius: 24px; padding: 20px; margin-top: 12px;">
+            <p style="font-weight: 500;">🎯 Результат: целостное представление о работе с MySQL — от создания базы до обмена данными. Курс подходит для начинающих и для систематизации знаний.</p>
+        </div>
+    </div>
+
+    <!-- СЛАЙД 3: Этапы создания видеороликов (основная часть) -->
+    <div class="slide">
+        <h2>🎬 Этапы создания видеороликов</h2>
+        <p style="margin-bottom: 20px;">Видеоматериалы смонтированы в программах <strong>Sony Vegas</strong> и <strong>Adobe Premiere Pro</strong>. Ниже представлены ключевые стадии создания курса.</p>
+        <div class="grid-3">
+            <div class="card">
+                <div class="step-number">1</div>
+                <h3>Пре-продакшн</h3>
+                <p>Разработка сценария и структуры каждого ролика. Определение логических блоков: проектирование БД, создание таблиц, связи, SQL-запросы, импорт/экспорт. Подготовка тестовых данных и примеров для демонстрации в MySQL.</p>
+            </div>
+            <div class="card">
+                <div class="step-number">2</div>
+                <h3>Запись экрана и аудио</h3>
+                <p>Захват действий в среде MySQL. Чистое озвучивание с подробными пояснениями каждого этапа: от CREATE DATABASE до сложных JOIN и выгрузки данных. Контроль тайминга и качества дикции.</p>
+            </div>
+            <div class="card">
+                <div class="step-number">3</div>
+                <h3>Монтаж в Sony Vegas / Premiere Pro</h3>
+                <p>Сборка видеоряда, обрезка пауз, наложение акцентов, вставка пояснительных аннотаций и таймкодов. Использование двух NLE-систем для гибкости: синхронизация дорожек, цветокоррекция скринкастов, динамический зум для важных элементов.</p>
+            </div>
+            <div class="card">
+                <div class="step-number">4</div>
+                <h3>Постпродакшн & визуальные акценты</h3>
+                <p>Добавление интерактивных подсказок, подсветка SQL-кода, плавные переходы между этапами. Создание единого стиля для всей серии (интро, аутро, логотипы).</p>
+            </div>
+            <div class="card">
+                <div class="step-number">5</div>
+                <h3>Технический контроль и ревью</h3>
+                <p>Проверка корректности SQL-примеров, целостности объяснений, синхронизации звука и видео. Тестирование на разных устройствах.</p>
+            </div>
+            <div class="card">
+                <div class="step-number">6</div>
+                <h3>Экспорт, публикация & оптимизация</h3>
+                <p>Рендеринг финальных файлов (H.264, высокий битрейт), загрузка на YouTube, оформление описаний, таймкодов и ссылок на ресурсы.</p>
+            </div>
+        </div>
+        <div class="tools">
+            <div class="tool">🎞️ Sony Vegas Pro</div>
+            <div class="tool">✂️ Adobe Premiere Pro</div>
+            <div class="tool">🎙️ Запись голоса + шумоподавление</div>
+            <div class="tool">🐬 MySQL</div>
+        </div>
+    </div>
+
+    <!-- СЛАЙД 4: Детали монтажа — технические особенности -->
+    <div class="slide">
+        <h2>🛠️ Технические детали монтажа</h2>
+        <div class="grid-2">
+            <div class="card">
+                <h3>🎛️ Sony Vegas Pro</h3>
+                <p>Использован для быстрой сборки черновых версий, точной обрезки и выравнивания звука. Плагины для визуализации клавиатурных сокращений, улучшение читаемости текста на экране.</p>
+            </div>
+            <div class="card">
+                <h3>✨ Adobe Premiere Pro</h3>
+                <p>Финальная цветокоррекция, создание анимированных слоёв с пояснениями SQL-синтаксиса, профессиональные переходы между сценами, экспорт в высоком разрешении с оптимизацией для YouTube.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- СЛАЙД 5: Содержание видео (структура) -->
+    <div class="slide">
+        <h2>📖 Содержательное наполнение роликов</h2>
+        <div class="grid-2">
+            <div>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li style="margin-bottom: 14px;">✔️ <strong>Базовые этапы:</strong> создание базы данных, проектирование структуры, таблицы, типы данных.</li>
+                    <li style="margin-bottom: 14px;">✔️ <strong>Связи и наполнение:</strong> первичные/внешние ключи, нормализация, вставка данных.</li>
+                    <li style="margin-bottom: 14px;">✔️ <strong>Язык SQL:</strong> SELECT, фильтрация, JOIN, агрегация, INSERT/UPDATE/DELETE, эффективное использование индексов.</li>
+                    <li style="margin-bottom: 14px;">✔️ <strong>Импорт данных:</strong> загрузка из CSV/JSON, разбор типичных ошибок (кодировка, форматы, ограничения).</li>
+                    <li>✔️ <strong>Экспорт и резервное копирование:</strong> дампы, выгрузка, перенос БД, автоматизация.</li>
+                </ul>
+            </div>
+            <div class="card" style="background: #e8f0fe;">
+                <h3>🎯 Для кого?</h3>
+                <p>Начинающие разработчики, учащиеся специальностей 5-04-0612-02, 5-04-0611-01, а также изучающие «Базы данных» по направлениям 5-04-0611-04 и 5-04-0611-02. Курс помогает систематизировать знания о MySQL и обмене информацией.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- СЛАЙД 6: ССЫЛКИ НА ВИДЕОРОЛИКИ -->
+    <div class="slide">
+        <h2>🔗 Серия видеороликов</h2>
+        <p>Ознакомьтесь с готовыми материалами. Видео последовательно показывают процесс проектирования, SQL-запросы и механизмы импорта/экспорта данных в MySQL.</p>
+        <div class="video-links">
+            <a href="https://youtu.be/cpX1HEpj7zc" target="_blank" class="link-item">
+                <span class="link-icon">🎥</span>
+                <div><strong>Видео 1</strong><br><span class="link-url">https://youtu.be/cpX1HEpj7zc</span></div>
+                <span style="margin-left: auto;">→</span>
+            </a>
+            <a href="https://youtu.be/9Xnp8AR9QoI" target="_blank" class="link-item">
+                <span class="link-icon">🎥</span>
+                <div><strong>Видео 2</strong><br><span class="link-url">https://youtu.be/9Xnp8AR9QoI</span></div>
+                <span style="margin-left: auto;">→</span>
+            </a>
+            <a href="https://youtu.be/oYVQaOcCLhw" target="_blank" class="link-item">
+                <span class="link-icon">🎥</span>
+                <div><strong>Видео 3</strong><br><span class="link-url">https://youtu.be/oYVQaOcCLhw</span></div>
+                <span style="margin-left: auto;">→</span>
+            </a>
+        </div>
+        <p style="margin-top: 20px; font-size: 0.9rem;">* Видеоролики монтировались в Sony Vegas и Adobe Premiere Pro. Представленные видео охватывают все ключевые темы работы с СУБД MySQL.</p>
+    </div>
+
+    <!-- СЛАЙД 7: Результаты и применение -->
+    <div class="slide">
+        <h2>🏆 Образовательная ценность</h2>
+        <div class="grid-2">
+            <div class="card">
+                <h3>📚 Для преподавателей</h3>
+                <p>Готовый демонстрационный материал для пар по дисциплинам «Системы управления базами данных» и «Базы данных». Возможность интеграции в учебные планы УО ССО.</p>
+            </div>
+            <div class="card">
+                <h3>🧑‍💻 Для учащихся</h3>
+                <p>Наглядное руководство по MySQL: от первых шагов до профессионального импорта/экспорта. Систематизация знаний и подготовка к лабораторным работам, курсовым проектам.</p>
+            </div>
+        </div>
+        <div style="margin-top: 20px; padding: 16px; background: #eef2f7; border-radius: 30px; text-align: center;">
+            <p>🎓 «Формирует целостное представление о работе с MySQL — от проектирования до обмена данными»</p>
+        </div>
+    </div>
+
+    <!-- СЛАЙД 8: Заключение - итоги производства -->
+    <div class="slide">
+        <h2>✅ Итоги производства видеокурса</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 24px; justify-content: space-between;">
+            <div style="flex:1; min-width: 200px;">
+                <ul style="list-style: none;">
+                    <li>📌 <strong>4+</strong> часов полезного контента</li>
+                    <li>📌 <strong>3</strong> основных видеоролика + бонусные материалы</li>
+                    <li>📌 <strong>MySQL</strong> в качестве платформы</li>
+                </ul>
+            </div>
+            <div style="flex:2">
+                <p>Монтаж в связке Sony Vegas (быстрый черновой монтаж) и Adobe Premiere Pro (финальная обработка, цвет, анимация) позволил добиться высокой информационной плотности и визуальной ясности. Каждый этап — от проектирования БД до экспорта — зафиксирован с подробными комментариями. Курс рекомендован для учреждений среднего специального образования.</p>
+            </div>
+        </div>
+        <hr style="margin: 28px 0 12px; border-color: #dce5ec;">
+        <p style="font-size: 0.9rem; text-align: center;">© Видеокурс по СУБД MySQL | Специальности: 5-04-0612-02 «Разработка и сопровождение программного обеспечения информационных систем», 5-04-0611-01 «Программирование мобильных устройств»,  5-04-0611-04 «Программно-техническое обеспечение цифровых устройств», 5-04-0611-02 «Техническое обеспечение информационной безопасности»  </p>
+    </div>
+    <footer>
+        🎬 Лазицкас Екатерина Александровна, Андрейчук Ольга Николаевна
+    </footer>
+</div>
+</body>
+</html>
